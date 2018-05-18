@@ -1,7 +1,6 @@
-import React from 'react';
+import React from "react";
 
 class Pancake extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -10,29 +9,33 @@ class Pancake extends React.Component {
       flippedAt: undefined
     };
   }
-
-  // TODO: create a componentDidMount() which will start the interval to count how long the pancake has been cooking
-
-  // TODO: create a componentWillUnmount() which will clear the interval
-
   updateCounter = () => {
     this.setState({
       timeCooked: this.state.timeCooked + 1
-    })
-  }
+    });
+  };
 
   startInterval = () => {
     this.interval = setInterval(this.updateCounter, 1000);
-  }
+  };
 
   cleanUpInterval = () => {
     clearInterval(this.interval);
-  }
+  };
 
   flip = () => {
     this.setState({
       flippedAt: this.state.timeCooked
-    })
+    });
+  };
+
+  // TODO: create a componentDidMount() which will start the interval to count how long the pancake has been cooking
+  componentDidMount() {
+    this.startInterval();
+  }
+  // TODO: create a componentWillUnmount() which will clear the interval
+  componentWillUnmount() {
+    this.cleanUpInterval();
   }
 
   getPancakeStatus = () => {
@@ -40,23 +43,23 @@ class Pancake extends React.Component {
 
     // first side
     if (!flippedAt) {
-      if (timeCooked < 2) return 'raw';
-      if (timeCooked === 2) return 'cooked';
-      return 'burnt';
+      if (timeCooked < 2) return "raw";
+      if (timeCooked === 2) return "cooked";
+      return "burnt";
     }
 
     //second side
-    if (flippedAt > 2) return 'burnt';
-    if (timeCooked === 4 && flippedAt === 2) return 'cooked';
-    return 'raw';
-  }
+    if (flippedAt > 2) return "burnt";
+    if (timeCooked === 4 && flippedAt === 2) return "cooked";
+    return "raw";
+  };
 
   takeItOff = () => {
     const { id } = this.props;
-    const { timeCooked, flippedAt } = this.state;
+    // const { timeCooked, flippedAt } = this.state;
     let status = this.getPancakeStatus();
     this.props.takeItOff(id, status);
-  }
+  };
 
   render() {
     const { timeCooked, flippedAt } = this.state;
@@ -68,18 +71,19 @@ class Pancake extends React.Component {
         <div className="Pancake__content">
           <p>I am a pancake.</p>
           <p>
-            Time cooked on {`${firstSide ? 'first' : 'second'}`} side: {`${firstSide ? timeCooked : timeCooked - flippedAt}`}
+            Time cooked on {`${firstSide ? "first" : "second"}`} side:{" "}
+            {`${firstSide ? timeCooked : timeCooked - flippedAt}`}
           </p>
           <div>
-            { firstSide ?
+            {firstSide ? (
               <button onClick={this.flip}>Flip me!</button>
-              :
+            ) : (
               <button onClick={this.takeItOff}>Take me off!</button>
-            }
+            )}
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
