@@ -1,7 +1,12 @@
 import React from 'react';
 
 class Pancake extends React.Component {
-
+  /*
+    props={
+      id:,
+      takeItOff: cbf(id, status)
+    }
+  */
   constructor(props) {
     super(props);
 
@@ -11,9 +16,18 @@ class Pancake extends React.Component {
     };
   }
 
-  // TODO: create a componentDidMount() which will start the interval to count how long the pancake has been cooking
+  // TODO: create a componentDidMount() which will start 
+  // the interval to count how long the pancake has been cooking
+  componentDidMount(){
+    console.log("Pancake::componentDidMount()");
+    this.startInterval();
+  }
 
   // TODO: create a componentWillUnmount() which will clear the interval
+  componentWillUnmount(){
+    console.log("Pancake::componentWillUnmount()");
+    this.cleanUpInterval();
+  }
 
   updateCounter = () => {
     this.setState({
@@ -53,6 +67,7 @@ class Pancake extends React.Component {
 
   takeItOff = () => {
     const { id } = this.props;
+    console.log("Pancake::takeItOff()", id)
     const { timeCooked, flippedAt } = this.state;
     let status = this.getPancakeStatus();
     this.props.takeItOff(id, status);

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Pancake from './Pancake';
 
 class Game extends React.Component {
@@ -17,7 +16,10 @@ class Game extends React.Component {
   }
 
   // TODO: create a componentWillMount() which will set the current time
-
+  componentWillMount(){
+    console.log("Game::componentWillMount()")
+    this.setCurrentTime();
+  }
   setCurrentTime = () => {
     this.setState({ time: new Date(Date.now())});
   }
@@ -30,7 +32,7 @@ class Game extends React.Component {
 
   takeItOff = (id, status) => {
     const { pancakes, cooked, burnt, raw } = this.state;
-
+    console.log("Game::takeItOff()", id, status);
     this.setState({
       pancakes: pancakes.filter(pancake => !(pancake === id)),
       cooked: status === 'cooked' ? cooked + 1 : cooked,
